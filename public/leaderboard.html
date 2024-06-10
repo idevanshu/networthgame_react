@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <title>Leaderboard</title>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center mt-5">Leaderboard</h1>
+        <table class="table table-striped mt-3">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Rank</th>
+                    <th>Name</th>
+                    <th>Net Worth</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% users.forEach(function(user, index) { %>
+                    <tr>
+                        <td><%= index + 1 %></td>
+                        <td><%= user.name %></td>
+                        <td><%= user.netWorth %> ETH</td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+        <a class="btn btn-primary" href="/" role="button">Go Back</a>
+    </div>
+</body>
+</html>

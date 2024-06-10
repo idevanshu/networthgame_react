@@ -1,0 +1,51 @@
+{
+  "name": "@dynamic-labs/react-18-viem-wagmi",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@dynamic-labs/ethereum": "*",
+    "@dynamic-labs/sdk-react-core": "*",
+    "@dynamic-labs/wagmi-connector": "*",
+    "@prisma/client": "^5.15.0",
+    "@tanstack/react-query": "^5.27.5",
+    "express": "^4.19.2",
+    "pg": "^8.12.0",
+    "prisma": "^5.15.0",
+    "react": "^18.2.0",
+    "react-dom": "18.2.0",
+    "react-scripts": "^5.0.1",
+    "viem": "^2.8.4",
+    "wagmi": "^2.5.7",
+    "web3": "^4.9.0"
+  },
+  "overrides": {
+    "typescript": "4.9.5"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.3"
+  }
+}
