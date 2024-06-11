@@ -1,11 +1,14 @@
 const express = require('express');
-const { Web3 } = require('web3');
+const {Web3} = require('web3');
 const path = require('path');
 const { PrismaClient } = require('@prisma/client');
+const Redis = require('ioredis');
+
 const app = express();
 const PORT = process.env.PORT || 3001;
 
 const prisma = new PrismaClient();
+const redis = new Redis(); // Connects to 127.0.0.1:6379 by default
 
 // Configure Web3 with Infura using your API key
 const infuraUrl = 'https://mainnet.infura.io/v3/8627168fd72846898c561bf658ff262a';
@@ -28,6 +31,14 @@ app.post('/api/userdata', async (req, res) => {
   const name = generateUserName(address);
 
   try {
+    // Check cache first
+    let userCache = await redis.get(address);
+    if (userCache) {
+      userCache = JSON.parse(userCache);
+      res.json(userCache);
+      return;
+    }
+
     const balance = await web3.eth.getBalance(address);
     const ethHoldings = web3.utils.fromWei(balance, 'ether');
     
@@ -57,6 +68,9 @@ app.post('/api/userdata', async (req, res) => {
     const multiplier = user.loginCount;
     const netWorth = user.ethHoldings * multiplier;
 
+    // Cache the result
+    await redis.set(address, JSON.stringify({ name, netWorth, multiplier }), 'EX', 3600); // Expires in 1 hour
+
     res.json({ name, netWorth, multiplier });
   } catch (error) {
     console.error("Error fetching ETH balance or updating database:", error);
@@ -71,7 +85,7 @@ app.get('/api/leaderboard', async (req, res) => {
     const userList = users.map(user => ({
       name: user.name,
       netWorth: user.ethHoldings * user.loginCount,
-      multiplier: user.loginCount
+      multiplier: user.loginMiss
     }));
     userList.sort((a, b) => b.netWorth - a.netWorth);
     res.json(userList);
