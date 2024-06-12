@@ -20,7 +20,7 @@ const Main = () => {
       };
 
       // Send user data to the backend
-      fetch('http://localhost:3001/api/userdata', {
+      fetch('/api/userdata', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -57,7 +57,7 @@ const Main = () => {
 
   const fetchLeaderboard = async () => {
     try {
-      const response = await fetch('http://localhost:3001/api/leaderboard');
+      const response = await fetch('/api/leaderboard');
       const data = await response.json();
       setLeaders(data);
     } catch (error) {
