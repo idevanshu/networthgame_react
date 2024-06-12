@@ -2,22 +2,25 @@
   "version": 2,
   "builds": [
     {
-      "src": "server/handler.js",
+      "src": "api/handler.js",
       "use": "@vercel/node"
     },
     {
-      "src": "public/**/*",
-      "use": "@vercel/static-build"
+      "src": "src/**/*",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "build"
+      }
     }
   ],
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "/server/handler.js"
+      "dest": "/api/handler.js"
     },
     {
       "src": "/(.*)",
-      "dest": "/public/$1"
+      "dest": "/build/$1"
     }
   ]
 }
