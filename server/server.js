@@ -8,7 +8,7 @@ const app = express();
 
 // Configure CORS options to allow all domains
 const corsOptions = {
-    origin: (origin, callback) => callback(null, true), // Allow all origins
+    origin: '*', // Allow all origins
     optionsSuccessStatus: 200,
     methods: "GET, POST, PUT, DELETE",
     credentials: true
@@ -89,5 +89,5 @@ app.get('/api/leaderboard', async (req, res) => {
      res.status(500).send("Error fetching leaderboard data");
   }
 });
-
+//check
 module.exports = app;
