@@ -89,5 +89,6 @@ app.get('/api/leaderboard', async (req, res) => {
      res.status(500).send("Error fetching leaderboard data");
   }
 });
-//check
+
+// Export the Express app for Vercel to use
 module.exports = app;
