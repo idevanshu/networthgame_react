@@ -72,17 +72,18 @@ const Main = () => {
         <>
           <p className="text-lg mb-4">Net Worth: {netWorth.toFixed(3)} ETH</p>
           <p className="text-lg mb-16">Login Multiplier: {multiplier}</p>
+
+          <button 
+            className="btn btn-primary mt-4 mx-2 my-4" 
+            data-toggle="modal" 
+            data-target="#leaderboardModal"
+            onClick={fetchLeaderboard}
+          >
+            View Leaderboard
+          </button>
         </>
       )}
       <DynamicWidget />
-      <button 
-        className="btn btn-primary mt-4" 
-        data-toggle="modal" 
-        data-target="#leaderboardModal"
-        onClick={fetchLeaderboard}
-      >
-        View Leaderboard
-      </button>
 
       <div className="modal fade" id="leaderboardModal" tabIndex="-1" role="dialog" aria-labelledby="leaderboardModalLabel" aria-hidden="true">
         <div className="modal-dialog modal-lg" role="document">

@@ -3,16 +3,28 @@ const {Web3} = require('web3');
 const path = require('path');
 const { PrismaClient } = require('@prisma/client');
 const Redis = require('ioredis');
+const cors = require('cors');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
 
+// Configure CORS options to allow all domains
+const corsOptions = {
+    origin: (origin, callback) => callback(null, true), // Allow all origins
+    optionsSuccessStatus: 200,
+    methods: "GET, POST, PUT, DELETE",
+    credentials: true
+};
+
+app.use(cors(corsOptions)); // Apply CORS globally with specified options
+
+// Remaining initializations
 const prisma = new PrismaClient();
 const redis = new Redis(); // Connects to 127.0.0.1:6379 by default
 
 // Configure Web3 with Infura using your API key
-const infuraUrl = 'https://mainnet.infura.io/v3/8627168fd72846898c561bf658ff262a';
-const web3 = new Web3(infuraUrl); // Simplified initialization
+const infuraUrl = process.env.INFURA_URL || 'https://mainnet.infura.io/v3/8627168fd72846898c561bf658ff262a';
+const web3 = new Web3(infuraUrl);
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -27,7 +39,7 @@ function generateUserName(address) {
 
 // API endpoint to receive user data
 app.post('/api/userdata', async (req, res) => {
-  const { userId, address } = req.body;
+  const { address } = req.body;
   const name = generateUserName(address);
 
   try {
@@ -85,13 +97,13 @@ app.get('/api/leaderboard', async (req, res) => {
     const userList = users.map(user => ({
       name: user.name,
       netWorth: user.ethHoldings * user.loginCount,
-      multiplier: user.loginMiss
+      multiplier: user.loginNcount
     }));
     userList.sort((a, b) => b.netWorth - a.netWorth);
     res.json(userList);
   } catch (error) {
-    console.error("Error fetching leaderboard data:", error);
-    res.status(500).send("Error fetching leaderboard data");
+     console.error("Error fetching leaderboard data:", error);
+     res.status(500). send("Error fetching leaderboard data");
   }
 });
 
